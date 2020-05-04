@@ -32,7 +32,7 @@ client.loop_start()
 
 while Connected != True:
     time.sleep(0.1)
-    client.subscribe("sensor/movement")
+    client.subscribe("camera/face_recog")
 
 try:
     while True:

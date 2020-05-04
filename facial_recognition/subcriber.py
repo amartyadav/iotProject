@@ -7,16 +7,16 @@ def on_connect(client, userdata, flags, rc):
         print("Connected to broker")
         global Connected
         Connected = True
-    
+
     else:
         print("Connection failed")
 
 def on_message(client, userdata, message):
     print ("Message received:" ,str(message.payload.decode("utf-8")))
-    
+
 Connected = False
 
-broker_address= "tailor.cloudmqtt.com"
+broker_address = "tailor.cloudmqtt.com"
 port = 15628
 user = "jswnyenq"
 password = "UPt8dPRCjneU"

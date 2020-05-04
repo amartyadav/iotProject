@@ -41,9 +41,9 @@ try:
         value = input("Please write 1 or 0:")
 
         if value == "1":
-            client.publish("sensor/movement","Movement detected!")
+            client.publish("camera/face_recog","Movement detected!")
         else:
-            client.publish("sensor/movement","NO movement detected")
+            client.publish("camera/face_recog","NO movement detected")
 
  
 except KeyboardInterrupt:
