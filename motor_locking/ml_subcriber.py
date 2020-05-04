@@ -42,3 +42,5 @@ except KeyboardInterrupt:
     print ("exiting")
     client.disconnect()
     client.loop_stop()
+
+
