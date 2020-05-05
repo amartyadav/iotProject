@@ -1,0 +1,3 @@
+Success authorisation was given to Dured at 2020-05-05 06:48:47 with confidence rate of  51%
+Success authorisation was given to Dured at 2020-05-05 06:49:03 with confidence rate of  50%
+Success authorisation was given to Dured at 2020-05-05 06:49:10 with confidence rate of  51%
