@@ -1,9 +1,7 @@
 import paho.mqtt.client as mqttClient
 import time
 
-#txt= input("Please enter 1 or 0")
-number = 1
-
+myGlobalMessagePayload = ''
 
 def on_connect(client, userdata, flags, rc):
  
@@ -17,6 +15,15 @@ def on_connect(client, userdata, flags, rc):
     else:
  
         print("Connection failed")
+
+#subscribition to the topic 
+def on_message(client, userdata, message):
+    global myGlobalMessagePayload             #create global varaible to store value
+    if message.topic == "sensor/movement" :
+        myGlobalMessagePayload = message.payload
+        print ("Message received:" ,str(message.payload.decode("utf-8")))
+
+print (myGlobalMessagePayload)
  
 Connected = False   #global variable for the state of the connection
  
@@ -38,12 +45,10 @@ while Connected != True:    #Wait for connection
 try:
     while True:
 
-        value = input("Please write 1 or 0:")
-
-        if value == "1":
-            client.publish("camera/face_recog","Movement detected!")
+        if myGlobalMessagePayload == "Movement detected!":
+            client.publish("camera/face_recog","Unlock!")
         else:
-            client.publish("camera/face_recog","NO movement detected")
+            client.publish("camera/face_recog","Nothing")
 
  
 except KeyboardInterrupt:
