@@ -1,8 +1,7 @@
 import paho.mqtt.client as mqttClient
 import time
+import json
 
-#txt= input("Please enter 1 or 0")
-number = 1
 
 
 def on_connect(client, userdata, flags, rc):
@@ -17,7 +16,18 @@ def on_connect(client, userdata, flags, rc):
     else:
  
         print("Connection failed")
- 
+
+#subscribition to the topic 
+def on_message(client, userdata, message):
+   data = str(message.payload.decode("utf-8"))
+   print ("Message received:" ,data)
+
+   observation = json.loads(data)       
+   result = observation["hasResult"]
+   value = result["value"]                     
+
+   cmsg = value
+
 Connected = False   #global variable for the state of the connection
  
 broker_address= "tailor.cloudmqtt.com"
@@ -27,23 +37,24 @@ password = "UPt8dPRCjneU"
  
 client = mqttClient.Client("Python")               #create new instance
 client.username_pw_set(user, password=password)    #set username and password
-client.on_connect= on_connect                      #attach function to callback
+client.on_connect= on_connect
+client.on_message= on_message                      #attach function to callback
 client.connect(broker_address, port=port)     
  
 client.loop_start()        
  
-while Connected != True:    #Wait for connection
+while Connected != True:            #Wait for connection
+    client.subscribe("sensor/movement")   
     time.sleep(0.1)
 
 try:
     while True:
 
-        value = input("Please write 1 or 0:")
-
-        if value == "1":
-            client.publish("camera/face_recog","Movement detected!")
-        else:
-            client.publish("camera/face_recog","NO movement detected")
+        def fr_message(cmsg):
+            if cmsg == "Movement detected!":
+                client.publish("camera/face_recog","Unlock!")
+            else:
+                client.publish("camera/face_recog","Nothing")
 
  
 except KeyboardInterrupt:
