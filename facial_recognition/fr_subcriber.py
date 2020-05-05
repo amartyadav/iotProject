@@ -1,6 +1,9 @@
 
 import paho.mqtt.client as mqttClient
 import time
+
+myGlobalMessagePayload = ''
+
 def on_connect(client, userdata, flags, rc):
 
     if rc == 0:
@@ -12,7 +15,12 @@ def on_connect(client, userdata, flags, rc):
         print("Connection failed")
 
 def on_message(client, userdata, message):
-    print ("Message received:" ,str(message.payload.decode("utf-8")))
+    global myGlobalMessagePayload
+    if message.topic == "sensor/movement" :
+        myGlobalMessagePayload = message.payload
+        print ("Message received:" ,str(message.payload.decode("utf-8")))
+
+print (myGlobalMessagePayload)
 
 Connected = False
 
