@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqttClient
 import time
+import json
 
-myGlobalMessagePayload = ''
+
 
 def on_connect(client, userdata, flags, rc):
  
@@ -18,13 +19,15 @@ def on_connect(client, userdata, flags, rc):
 
 #subscribition to the topic 
 def on_message(client, userdata, message):
-    global myGlobalMessagePayload             #create global varaible to store value
-    if message.topic == "sensor/movement" :
-        myGlobalMessagePayload = message.payload
-        print ("Message received:" ,str(message.payload.decode("utf-8")))
+   data = str(message.payload.decode("utf-8"))
+   print ("Message received:" ,data)
 
-print (myGlobalMessagePayload)
- 
+   observation = json.loads(data)
+   result = observation["hasResult"]
+   value = result["value"]
+
+   cmsg = value
+
 Connected = False   #global variable for the state of the connection
  
 broker_address= "tailor.cloudmqtt.com"
@@ -34,7 +37,8 @@ password = "UPt8dPRCjneU"
  
 client = mqttClient.Client("Python")               #create new instance
 client.username_pw_set(user, password=password)    #set username and password
-client.on_connect= on_connect                      #attach function to callback
+client.on_connect= on_connect
+client.on_message= on_message                      #attach function to callback
 client.connect(broker_address, port=port)     
  
 client.loop_start()        
@@ -45,7 +49,7 @@ while Connected != True:    #Wait for connection
 try:
     while True:
 
-        if myGlobalMessagePayload == "Movement detected!":
+        if cmsg == "Movement detected!":
             client.publish("camera/face_recog","Unlock!")
         else:
             client.publish("camera/face_recog","Nothing")
