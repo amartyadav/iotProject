@@ -27,7 +27,7 @@ def main():
     client.username_pw_set(user, password=password)    #set username and password
     client.on_connect= on_connect                      #attach function to callback
     client.connect(broker_address, port=port) 
-    client.publish("camera/face_recog","open door!");
+    client.publish("camera/face_recog", 1);
     print("A message has been published")
     client.disconnect();
 
