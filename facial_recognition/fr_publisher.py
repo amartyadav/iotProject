@@ -22,9 +22,9 @@ def on_message(client, userdata, message):
    data = str(message.payload.decode("utf-8"))
    print ("Message received:" ,data)
 
-   observation = json.loads(data)
+   observation = json.loads(data)       
    result = observation["hasResult"]
-   value = result["value"]
+   value = result["value"]                     
 
    cmsg = value
 
@@ -43,7 +43,8 @@ client.connect(broker_address, port=port)
  
 client.loop_start()        
  
-while Connected != True:    #Wait for connection
+while Connected != True:            #Wait for connection
+    client.subscribe("sensor/movement")   
     time.sleep(0.1)
 
 try:
