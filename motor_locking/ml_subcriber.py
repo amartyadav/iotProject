@@ -51,7 +51,7 @@ def unlock_door(cmsg):
     ]
 
     # if user successfully recognised, then unlock the door by moving the motor.
-    if cmsg == 1:
+    if cmsg == "1":
         for i in range(512):
             for halfstep in range(8):
                 for pin in range(4):
