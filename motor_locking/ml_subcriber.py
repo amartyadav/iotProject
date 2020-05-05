@@ -70,7 +70,7 @@ port = 15628
 user = "jswnyenq"
 password = "UPt8dPRCjneU"
 
-client = mqttClient.Client("Python")
+client = mqttClient.Client("Python14")
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
