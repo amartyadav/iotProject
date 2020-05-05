@@ -49,10 +49,11 @@ while Connected != True:    #Wait for connection
 try:
     while True:
 
-        if cmsg == "Movement detected!":
-            client.publish("camera/face_recog","Unlock!")
-        else:
-            client.publish("camera/face_recog","Nothing")
+        def fr_message(cmsg):
+            if cmsg == "Movement detected!":
+                client.publish("camera/face_recog","Unlock!")
+            else:
+                client.publish("camera/face_recog","Nothing")
 
  
 except KeyboardInterrupt:
